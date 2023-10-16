@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from .models import CustomUser
+from .models import Cart, CartItems, CustomUser
 from django.contrib.auth import authenticate , login , logout
 from django.http import HttpResponseRedirect,HttpResponse
 from .models import Profile
@@ -64,3 +64,14 @@ def activate_email(request , email_token):
         return redirect('/')
     except Exception as e:
         return HttpResponse('Invalid Email token')
+    
+    
+def cart(request):
+    context = {'cart':Cart.objects.filter(is_paid = False, user = request.user)}
+    return render(request,'accounts/cart.html' , context)
+
+def remove_from_cart(request, cart_item_uid):
+    cart_items = CartItems.objects.get(uid = cart_item_uid)
+    cart_items.delete()
+    
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
