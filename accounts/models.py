@@ -31,6 +31,8 @@ class Profile(BaseModel):
     def get_cart_count(self):
         return CartItems.objects.filter(cart__is_paid = False, cart__user = self.user).count()
 
+    def __str__(self) -> str:
+        return self.user
 @receiver(post_save , sender = CustomUser)
 def  send_email_token(sender , instance , created , **kwargs):
     try:
@@ -61,6 +63,9 @@ class Cart(BaseModel):
                 price.append(size_variant_price)    
         print(price)
         return sum(price)
+    
+    def __str__(self) -> str:
+        return 'Cart - '+str(self.user)
 class CartItems(BaseModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="cart_items")
     product = models.ForeignKey(Product, on_delete=models.SET_NULL,null=True, blank=True)
@@ -80,3 +85,6 @@ class CartItems(BaseModel):
     
     def primary_image(self):
         return self.product_images.first() 
+    
+    def __str__(self) -> str:
+        return self.product.product_name
