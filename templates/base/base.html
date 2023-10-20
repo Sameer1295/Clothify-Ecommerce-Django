@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <title>Website title - bootstrap html template</title>
+    <title>Clothify</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
 
@@ -47,32 +47,23 @@
   </head>
   <body>
     <header class="section-header">
+      {% comment %}
       <nav class="navbar navbar-dark navbar-expand p-0 bg-dark">
         <div class="container">
           <ul class="navbar-nav d-none d-md-flex mr-auto">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Delivery</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Payment</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Delivery</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Payment</a>
+            </li>
           </ul>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="#" class="nav-link"> Call: +99812345678 </a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-toggle="dropdown"
-              >
-                English
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-right"
-                style="max-width: 100px"
-              >
-                <li><a class="dropdown-item" href="#">Arabic</a></li>
-                <li><a class="dropdown-item" href="#">Russian </a></li>
-              </ul>
+              <a href="#" class="nav-link"> Call: +99912345678 </a>
             </li>
           </ul>
           <!-- list-inline //  -->
@@ -80,6 +71,7 @@
         <!-- navbar-collapse .// -->
         <!-- container //  -->
       </nav>
+      {% endcomment %}
       <!-- header-top-light.// -->
 
       <section class="header-main border-bottom">
@@ -87,7 +79,9 @@
           <div class="row align-items-center">
             <div class="col-lg-2 col-4">
               <div class="brand-wrap">
-                <img class="logo" src="images/logo.png" />
+                <a href="{% url 'index' %}">
+                  <h3 style="color: blue">Clothify</h3>
+                </a>
               </div>
               <!-- brand-wrap.// -->
             </div>
@@ -122,14 +116,24 @@
                   >
                 </div>
                 <div class="widget-header icontext">
-                  <a href="#" class="icon icon-sm rounded-circle border"
+                  <a
+                    href="#"
+                    class="dropdown-toggle icon icon-sm rounded-circle border"
+                    data-toggle="dropdown"
                     ><i class="fa fa-user"></i
                   ></a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-right"
+                    style="max-width: 100px"
+                  >
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Logout </a></li>
+                  </ul>
                   <div class="text">
                     <span class="text-muted">Welcome!</span>
                     <div>
-                      <a href="#">Sign in</a> |
-                      <a href="#"> Register</a>
+                      <a href="{% url 'login' %}">Sign in</a> |
+                      <a href="{% url 'register' %}"> Register</a>
                     </div>
                   </div>
                 </div>
