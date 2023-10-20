@@ -77,3 +77,6 @@ class CartItems(BaseModel):
             size_variant_price = self.size_variant.price
             price.append(color_variant_price)
         return sum(price)
+    
+    def primary_image(self):
+        return self.product_images.first() 

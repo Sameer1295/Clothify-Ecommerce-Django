@@ -67,7 +67,8 @@ def activate_email(request , email_token):
     
     
 def cart(request):
-    context = {'cart':Cart.objects.filter(is_paid = False, user = request.user)}
+    cart_items = CartItems.objects.filter(cart__user=request.user, cart__is_paid=False)
+    context = {'cart_items': cart_items}
     return render(request,'accounts/cart.html' , context)
 
 def remove_from_cart(request, cart_item_uid):
