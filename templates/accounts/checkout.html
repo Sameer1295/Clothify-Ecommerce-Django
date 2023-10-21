@@ -1,0 +1,123 @@
+{% extends "base/base.html" %} {% block start %}
+
+<section class="section-content padding-y">
+  <div class="container">
+    <div class="row">
+      <main class="col-md-9 checkout-card">
+        <div class="card">
+          <div class="checkout">
+            <h2>Checkout</h2>
+            <form method="post" class="form">
+              {% csrf_token %}
+
+              <div class="form-group">
+                <label for="selected_address" class="form-label"
+                  >Select an address:</label
+                >
+                {% for address in user_addresses %}
+                <div class="form-check">
+                  <input
+                    type="radio"
+                    name="selected_address"
+                    id="address_{{ address.id }}"
+                    class="form-check-input"
+                    value="{{ address.id }}"
+                  />
+                  <label
+                    for="address_{{ address.id }}"
+                    class="form-check-label"
+                  >
+                    {{ address.street_address }}, {{ address.city }}
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </form>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addAddressModal"
+            >
+              Add New Address
+            </button>
+
+            {% include "accounts/address_form.html" %}
+          </div>
+        </div>
+      </main>
+      <!-- col.// -->
+      <aside class="col-md-3">
+        <div class="card mb-3">
+          <div class="card-body">Order Summary</div>
+          <!-- card-body.// -->
+        </div>
+        <!-- card .// -->
+        <div class="card">
+          <div class="card-body">
+            <dl class="dlist-align">
+              <dt>Total price:</dt>
+              <dd class="text-right">USD 568</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Discount:</dt>
+              <dd class="text-right">USD 658</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Total:</dt>
+              <dd class="text-right h5"><strong>$1,650</strong></dd>
+            </dl>
+            <hr />
+            <p class="text-center mb-3">
+              <img src="images/misc/payments.png" height="26" />
+            </p>
+            <a href="#" id="make-purchase" class="btn btn-primary">
+              Make Purchase <i class="fa fa-chevron-right"></i>
+            </a>
+          </div>
+          <!-- card-body.// -->
+        </div>
+
+        <!-- card .// -->
+      </aside>
+      <!-- col.// -->
+    </div>
+  </div>
+  <!-- container .//  -->
+</section>
+
+<script>
+      {% comment %} onclick of make-purchase btn hide table-shopping-cart and show checkout div {% endcomment %}
+  $(document).ready(function() {
+        // Add a click event handler to the "make-purchase" button
+        $('#make-purchase').click(function() {
+            // Hide the shopping cart table
+            $('.cart-card').hide();
+
+            // Show the checkout div
+            $('.checkout-card').show();
+        });
+
+    $('.add-address-form').on('submit', function(event) {
+      event.preventDefault();
+
+      $.ajax({
+          type: 'POST',
+          url: '{% url 'add_address' %}',  // Replace with the URL of your Django view
+          data: $(this).serialize(),
+          success: function(response) {
+              if (response.success) {
+                  // Handle success, e.g., close the modal and update the UI
+                  $('#addAddressModal').modal('hide');
+                  // You may want to update the UI to display the newly added address.
+              } else {
+                  // Handle errors if needed
+                  alert('Error while saving the address');
+              }
+          }
+      });
+    });
+  });
+</script>
+{% endblock %}
