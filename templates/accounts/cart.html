@@ -154,7 +154,11 @@
             <p class="text-center mb-3">
               <img src="images/misc/payments.png" height="26" />
             </p>
-            <a href="#" id="make-purchase" class="btn btn-primary">
+            <a
+              href="{% url 'checkout' %}"
+              id="make-purchase"
+              class="btn btn-primary"
+            >
               Make Purchase <i class="fa fa-chevron-right"></i>
             </a>
           </div>

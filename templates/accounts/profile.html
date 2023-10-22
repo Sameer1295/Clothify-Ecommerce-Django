@@ -1,0 +1,23 @@
+<!-- profile.html -->
+{% extends "base/base.html" %} {% block start %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h1 class="card-title">Your Profile</h1>
+          <p class="card-text">Name: {{ user_profile.user.get_full_name }}</p>
+          <p class="card-text">Email: {{ user_profile.user.email }}</p>
+          <p class="card-text">
+            Email Verification Status: {% if user_profile.is_email_verified %}
+            <span class="badge badge-success">Verified</span>
+            {% else %}
+            <span class="badge badge-warning">Not Verified</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

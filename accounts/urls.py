@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import add_address, cart, checkout, login_page,register_page, activate_email
+from accounts.views import add_address, cart, checkout, login_page, profile,register_page, activate_email
 
 urlpatterns = [
    path('login/' , login_page , name="login" ),
@@ -8,4 +8,5 @@ urlpatterns = [
    path('cart/',cart,name='cart'),
    path('checkout/',checkout,name='checkout'),
    path('add-address/',add_address,name='add_address'),
+   path('profile/', profile, name='profile'),
 ]

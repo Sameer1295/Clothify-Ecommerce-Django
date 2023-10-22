@@ -76,8 +76,10 @@ def cart(request):
 def checkout(request):
     cart_items = CartItems.objects.filter(cart__user=request.user, cart__is_paid=False)
     user_addresses = Address.objects.filter(user=request.user)
-    
-    context = {'user_addresses': user_addresses,'cart_items': cart_items}
+    cart = Cart.objects.filter(user=request.user)
+    total_amount = sum(cart_item.get_product_price() for cart_item in cart_items)
+
+    context = {'user_addresses': user_addresses,'cart_items': cart_items,'total_amount': total_amount}
     return render(request,'accounts/checkout.html' , context)
 
 def remove_from_cart(request, cart_item_uid):
@@ -114,3 +116,11 @@ def add_address(request):
         return JsonResponse({'success': True})
 
     return HttpResponseRedirect(request.path_info)
+
+
+def profile(request):
+    user_profile = Profile.objects.get(user=request.user)
+    context = {
+        'user_profile': user_profile,
+    }
+    return render(request, 'accounts/profile.html', context)

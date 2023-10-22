@@ -62,7 +62,7 @@ class Cart(BaseModel):
                 size_variant_price = cart_item.size_variant.price
                 price.append(size_variant_price)    
         print(price)
-        return sum(price)
+        return 1000
     
     def __str__(self) -> str:
         return 'Cart - '+str(self.user)
