@@ -58,6 +58,7 @@
           </div>
           <!-- card-body.// -->
         </div>
+
         <!-- card .// -->
         <div class="card">
           <div class="card-body">
@@ -98,9 +99,17 @@
             <p class="text-center mb-3">
               <img src="images/misc/payments.png" height="26" />
             </p>
-            <a href="#" id="make-purchase" class="btn btn-primary">
-              Continue <i class="fa fa-chevron-right"></i>
-            </a>
+
+            <div class="col-6 mx-auto" style="margin-top: 10%">
+              <form action="{% url 'payment' %}" method="POST">
+                {% csrf_token %}
+                <div>
+                  <button type="submit" class="btn btn-primary">
+                    Continue
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
           <!-- card-body.// -->
         </div>
@@ -116,14 +125,6 @@
 <script>
       {% comment %} onclick of make-purchase btn hide table-shopping-cart and show checkout div {% endcomment %}
   $(document).ready(function() {
-        // Add a click event handler to the "make-purchase" button
-        $('#make-purchase').click(function() {
-            // Hide the shopping cart table
-            $('.cart-card').hide();
-
-            // Show the checkout div
-            $('.checkout-card').show();
-        });
 
     $('.add-address-form').on('submit', function(event) {
       event.preventDefault();

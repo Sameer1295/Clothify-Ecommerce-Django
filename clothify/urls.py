@@ -23,8 +23,11 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('' , include('home.urls') ),
     path('product/' , include('products.urls') ),
+    # path('accounts/', include('django.contrib.auth.urls')),
+
     path('accounts/' , include('accounts.urls') ),
     path('admin/', admin.site.urls),
+    path('ordermanager/', include('ordermanager.urls')),
 ]
 
 if settings.DEBUG:

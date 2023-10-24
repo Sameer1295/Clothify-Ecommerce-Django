@@ -1,9 +1,10 @@
 from pydoc import render_doc
 from tkinter import E
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from accounts.models import Cart, CartItems
 from products.models import Product, SizeVariant
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -22,10 +23,11 @@ def get_product(request , slug):
     except Exception as e:
         print(e)
         
-        
+@login_required    
 def add_to_cart(request, uid):
     variant = request.GET.get('variant')
     product = Product.objects.get(uid = uid)
+    
     user = request.user
     cart , _  = Cart.objects.get_or_create(user=user,is_paid=False)
     cart_item = CartItems.objects.create(cart=cart,product=product,)

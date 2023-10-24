@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'products',
+    'ordermanager',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = '9f64d79588e974'
 EMAIL_HOST_PASSWORD = 'f477f9a8b21dcb'
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"  # new
+LOGIN_URL = 'login'
