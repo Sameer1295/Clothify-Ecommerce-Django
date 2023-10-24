@@ -80,7 +80,7 @@ class CartItems(BaseModel):
             price.append(color_variant_price)
         if self.size_variant:
             size_variant_price = self.size_variant.price
-            price.append(color_variant_price)
+            price.append(size_variant_price)
         return sum(price)
     
     def primary_image(self):

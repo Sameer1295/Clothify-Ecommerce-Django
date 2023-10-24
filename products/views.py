@@ -1,6 +1,6 @@
 from pydoc import render_doc
 from tkinter import E
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from accounts.models import Cart, CartItems
 from products.models import Product, SizeVariant
@@ -22,19 +22,17 @@ def get_product(request , slug):
 
     except Exception as e:
         print(e)
+        return HttpResponse("Product not found", status=404)
         
 @login_required    
-def add_to_cart(request, uid):
-    variant = request.GET.get('variant')
+def add_to_cart(request):
+    quantity = request.POST.get('quantity')
+    size_variant = request.POST.get('size_variant')
+    uid = request.POST.get('uid')
     product = Product.objects.get(uid = uid)
     
     user = request.user
     cart , _  = Cart.objects.get_or_create(user=user,is_paid=False)
-    cart_item = CartItems.objects.create(cart=cart,product=product,)
-    
-    if variant:
-        size_variant = SizeVariant.objects.get(size_name = variant)
-        cart_item.size_variant = size_variant
-        cart_item.save()
+    cart_item = CartItems.objects.create(cart=cart,product=product,size_variant_id=size_variant)
         
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponse('Product added to cart')

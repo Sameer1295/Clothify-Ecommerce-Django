@@ -84,7 +84,12 @@
                       +
                     </button>
                   </div>
-                  <input type="text" class="form-control" value="1" />
+                  <input
+                    type="text"
+                    name="quantity"
+                    class="form-control"
+                    value="1"
+                  />
                   <div class="input-group-append">
                     <button
                       class="btn btn-light"
@@ -97,40 +102,27 @@
                 </div>
               </div>
               <!-- col.// -->
-              {% if product.size_variant.count %}
-              <div class="form-group col-md">
-                <label>Select size</label>
-                <div class="mt-1">
-                  {% for size in product.size_variant.all %}
-
-                  <label
-                    class="custom-control custom-radio custom-control-inline"
-                  >
-                    <input
-                      type="radio"
-                      name="select_size"
-                      checked=""
-                      class="custom-control-input"
-                    />
-                    <div class="custom-control-label">{{size.size_name}}</div>
-                  </label>
-
-                  {% endfor %}
-                </div>
-              </div>
-              {% endif %}
+              {% for size in product.size_variant.all %}
+              <label class="custom-control custom-radio custom-control-inline">
+                <input
+                  type="radio"
+                  id="size_variant"
+                  name="size_variant"
+                  value="{{ size.uid }}"
+                  class="custom-control-input"
+                />
+                <div class="custom-control-label">{{ size.size_name }}</div>
+              </label>
+              {% endfor %}
               <!-- col.// -->
             </div>
             <!-- row.// -->
 
             <a href="#" class="btn btn-primary"> Buy now </a>
-            <a
-              href="{% url 'add_to_cart' product.uid %}?variant={{selected_size}}"
-              class="btn btn-outline-primary"
-              >Add to Cart</a
-            >
+            <button type="button" class="btn btn-primary" id="add-to-cart">
+              Add to Cart
+            </button>
           </article>
-          <!-- product-info-aside .// -->
         </main>
         <!-- col.// -->
       </div>
@@ -140,5 +132,44 @@
     <!-- ============================ COMPONENT 1 END .// ================================= -->
   </div>
 </section>
+
+<script>
+  $(document).ready(function () {
+    $("#size_variant").change(function () {
+      if ($(this).is(":checked")) {
+        var val = $(this).val(); // retrieve the value
+      }
+    });
+
+    $("#add-to-cart").on("click", function (e) {
+      e.preventDefault();
+
+      var quantity = $('input[name="quantity"]').val();
+      var productid = "{{ product.uid }}";
+      var selected_size = $('input[name="size_variant"]:checked').val();
+
+      var data = {
+        quantity: quantity,
+        uid: productid,
+        size_variant: selected_size,
+        csrfmiddlewaretoken: "{{csrf_token}}",
+      };
+      console.log(data);
+      $.ajax({
+        url: "{% url 'add_to_cart' %}",
+        type: "POST",
+        data: data,
+        success: function (response) {
+          alert(response);
+          console.log(response);
+          window.location.href = "/accounts/cart/";
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    });
+  });
+</script>
 
 {% endblock %}
