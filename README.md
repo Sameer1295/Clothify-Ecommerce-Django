@@ -4,7 +4,7 @@
 
 Clothify is a Django-based Ecommerce application designed for clothing stores. It allows users to browse, select, and purchase clothing products. The application provides a wide range of features including product management, user authentication, and shopping cart functionality.
 
-![image](https://github.com/Sameer1295/Clothify-Ecommerce-Django/assets/29782669/5007b773-5ed5-488a-87a9-4f53581384c7)
+![image](https://github.com/Sameer1295/Clothify-Ecommerce-Django/assets/29782669/e2529c41-dfc8-4e33-8c50-6a2a7eb74736)
 
 
 ## Key Features
