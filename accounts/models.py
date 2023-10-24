@@ -31,6 +31,8 @@ class Profile(BaseModel):
     def get_cart_count(self):
         return CartItems.objects.filter(cart__is_paid = False, cart__user = self.user).count()
 
+    def __str__(self) -> str:
+        return self.user
 @receiver(post_save , sender = CustomUser)
 def  send_email_token(sender , instance , created , **kwargs):
     try:
@@ -60,7 +62,10 @@ class Cart(BaseModel):
                 size_variant_price = cart_item.size_variant.price
                 price.append(size_variant_price)    
         print(price)
-        return sum(price)
+        return 1000
+    
+    def __str__(self) -> str:
+        return 'Cart - '+str(self.user)
 class CartItems(BaseModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="cart_items")
     product = models.ForeignKey(Product, on_delete=models.SET_NULL,null=True, blank=True)
@@ -75,5 +80,33 @@ class CartItems(BaseModel):
             price.append(color_variant_price)
         if self.size_variant:
             size_variant_price = self.size_variant.price
-            price.append(color_variant_price)
+            price.append(size_variant_price)
         return sum(price)
+    
+    def primary_image(self):
+        return self.product_images.first() 
+    
+    def __str__(self) -> str:
+        return self.product.product_name
+    
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create a model for user addresses
+class Address(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='addresses')
+    contact_name = models.CharField(max_length=100)
+    contact_number = models.CharField(max_length=15)
+    ADDRESS_TYPE_CHOICES = [
+        ('home', 'Home'),
+        ('work', 'Work'),
+    ]
+    address_type = models.CharField(max_length=10, choices=ADDRESS_TYPE_CHOICES)
+    street_address = models.CharField(max_length=255)
+    pincode = models.CharField(max_length=10)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    landmark = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.contact_name} - {self.street_address}, {self.city}, {self.state}"

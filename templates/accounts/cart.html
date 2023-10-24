@@ -3,7 +3,7 @@
 <section class="section-content padding-y">
   <div class="container">
     <div class="row">
-      <main class="col-md-9">
+      <main class="col-md-9 cart-card">
         <div class="card">
           <table class="table table-borderless table-shopping-cart">
             <thead class="text-muted">
@@ -15,20 +15,26 @@
               </tr>
             </thead>
             <tbody>
-              {% for cart_item in cart %}
+              {% for cart_item in cart_items %}
               <tr>
                 <td>
                   <figure class="itemside">
                     <div class="aside">
-                      <img src="images/items/1.jpg" class="img-sm" />
+                      <img
+                        src="/media/{{cart_item.product.product_images.first.image}}"
+                        class="img-sm"
+                      />
                     </div>
                     <figcaption class="info">
-                      <a href="#" class="title text-dark"
-                        >Some name of item goes here nice</a
+                      <a
+                        href="{% url 'get_product' cart_item.product.slug %}"
+                        class="title text-dark"
+                        >{{ cart_item.product.product_name }}</a
                       >
                       <p class="text-muted small">
-                        Size: {{cart_item.size_variant }}, Color:
-                        {{cart_item.color_variant }}, <br />
+                        Size: {{cart_item.size_variant |default_if_none:"" }},
+                        Color: {{cart_item.color_variant |default_if_none:"" }},
+                        <br />
                         Brand: Gucci
                       </p>
                     </figcaption>
@@ -44,8 +50,10 @@
                 </td>
                 <td>
                   <div class="price-wrap">
-                    <var class="price">$1156.00</var>
-                    <small class="text-muted"> $315.20 each </small>
+                    <var class="price">{{cart_item.get_product_price }}</var>
+                    <small class="text-muted">
+                      {{cart_item.product.price }} each
+                    </small>
                   </div>
                   <!-- price-wrap .// -->
                 </td>
@@ -72,10 +80,7 @@
           </table>
 
           <div class="card-body border-top">
-            <a href="#" class="btn btn-primary float-md-right">
-              Make Purchase <i class="fa fa-chevron-right"></i>
-            </a>
-            <a href="#" class="btn btn-light">
+            <a href="{% url 'index' %}" class="btn btn-light">
               <i class="fa fa-chevron-left"></i> Continue shopping
             </a>
           </div>
@@ -87,6 +92,24 @@
             <i class="icon text-success fa fa-truck"></i> Free Delivery within
             1-2 weeks
           </p>
+        </div>
+      </main>
+
+      <main class="col-md-9 checkout-card" style="display: none">
+        <div class="card">
+          <div class="checkout">
+            <h2>Checkout</h2>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addAddressModal"
+            >
+              Add New Address
+            </button>
+
+            {% include "accounts/address_form.html" %}
+          </div>
         </div>
       </main>
       <!-- col.// -->
@@ -131,9 +154,17 @@
             <p class="text-center mb-3">
               <img src="images/misc/payments.png" height="26" />
             </p>
+            <a
+              href="{% url 'checkout' %}"
+              id="make-purchase"
+              class="btn btn-primary"
+            >
+              Make Purchase <i class="fa fa-chevron-right"></i>
+            </a>
           </div>
           <!-- card-body.// -->
         </div>
+
         <!-- card .// -->
       </aside>
       <!-- col.// -->
@@ -141,4 +172,38 @@
   </div>
   <!-- container .//  -->
 </section>
+
+<script>
+      {% comment %} onclick of make-purchase btn hide table-shopping-cart and show checkout div {% endcomment %}
+  $(document).ready(function() {
+        // Add a click event handler to the "make-purchase" button
+        $('#make-purchase').click(function() {
+            // Hide the shopping cart table
+            $('.cart-card').hide();
+
+            // Show the checkout div
+            $('.checkout-card').show();
+        });
+
+    $('.add-address-form').on('submit', function(event) {
+      event.preventDefault();
+
+      $.ajax({
+          type: 'POST',
+          url: '{% url 'add_address' %}',  // Replace with the URL of your Django view
+          data: $(this).serialize(),
+          success: function(response) {
+              if (response.success) {
+                  // Handle success, e.g., close the modal and update the UI
+                  $('#addAddressModal').modal('hide');
+                  // You may want to update the UI to display the newly added address.
+              } else {
+                  // Handle errors if needed
+                  alert('Error while saving the address');
+              }
+          }
+      });
+    });
+  });
+</script>
 {% endblock %}

@@ -47,6 +47,8 @@ class Product(BaseModel):
     def __str__(self) -> str:
         return self.product_name
 
+    def primary_image(self):
+        return self.product_images.first() 
 class ProductImage(BaseModel):
     product = models.ForeignKey(Product , on_delete=models.CASCADE , related_name="product_images")
     image =  models.ImageField(upload_to="product")

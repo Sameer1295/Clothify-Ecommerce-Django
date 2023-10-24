@@ -1,0 +1,152 @@
+{% extends "base/base.html" %} {% block start %}
+
+<section class="section-content padding-y">
+  <div class="container">
+    <div class="row">
+      <main class="col-md-8 checkout-card">
+        <div class="card">
+          <div class="checkout">
+            <h2>Checkout</h2>
+            <form method="post" class="form">
+              {% csrf_token %}
+
+              <div class="form-group">
+                <label for="selected_address" class="form-label"
+                  >Select an address:</label
+                >
+                {% for address in user_addresses %}
+                <div class="form-check">
+                  <input
+                    type="radio"
+                    name="selected_address"
+                    id="address_{{ address.id }}"
+                    class="form-check-input"
+                    value="{{ address.id }}"
+                  />
+                  <label
+                    for="address_{{ address.id }}"
+                    class="form-check-label"
+                  >
+                    {{ address.street_address }}, {{ address.city }}
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </form>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addAddressModal"
+            >
+              Add New Address
+            </button>
+
+            {% include "accounts/address_form.html" %}
+          </div>
+        </div>
+      </main>
+      <!-- col.// -->
+      <aside class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            Order Summary
+            <span class="badge badge-secondary badge-pill"
+              >{{ cart_items.count }}</span
+            >
+          </div>
+          <!-- card-body.// -->
+        </div>
+
+        <!-- card .// -->
+        <div class="card">
+          <div class="card-body">
+            <ul class="list-group mb-3">
+              {% for cart_item in cart_items %}
+              <li
+                class="list-group-item d-flex justify-content-between lh-condensed"
+              >
+                <div>
+                  <h6 class="my-0">{{ cart_item.product.product_name }}</h6>
+                  {% comment %}
+                  <small class="text-muted"
+                    >{{ cart_item.product.product_desription }}</small
+                  >
+                  {% endcomment %}
+                </div>
+                <span class="text-muted"
+                  >₹ {{cart_item.get_product_price }}</span
+                >
+              </li>
+              {% endfor %} {% comment %}
+              <li
+                class="list-group-item d-flex justify-content-between bg-light"
+              >
+                <div class="text-success">
+                  <h6 class="my-0">Promo code</h6>
+                  <small>EXAMPLECODE</small>
+                </div>
+                <span class="text-success">-$5</span>
+              </li>
+              {% endcomment %}
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total (₹)</span>
+                <strong>₹ {{ total_amount }}</strong>
+              </li>
+            </ul>
+            <hr />
+            <p class="text-center mb-3">
+              <img src="images/misc/payments.png" height="26" />
+            </p>
+
+            <div class="col-6 mx-auto" style="margin-top: 10%">
+              <form action="{% url 'payment' %}" method="POST">
+                {% csrf_token %}
+                <div>
+                  <button type="submit" class="btn btn-primary">
+                    Continue
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- card-body.// -->
+        </div>
+
+        <!-- card .// -->
+      </aside>
+      <!-- col.// -->
+    </div>
+  </div>
+  <!-- container .//  -->
+</section>
+
+<script>
+      {% comment %} onclick of make-purchase btn hide table-shopping-cart and show checkout div {% endcomment %}
+  $(document).ready(function() {
+
+    $('.add-address-form').on('submit', function(event) {
+      event.preventDefault();
+
+      $.ajax({
+          type: 'POST',
+          url: '{% url 'add_address' %}',  // Replace with the URL of your Django view
+          data: $(this).serialize(),
+          success: function(response) {
+              if (response.success) {
+                  // Handle success, e.g., close the modal and update the UI
+                  $('#addAddressModal').modal('hide');
+                  alert('Address added');
+                  location.reload();
+                  // You may want to update the UI to display the newly added address.
+              } else {
+                  // Handle errors if needed
+                  alert('Error while saving the address');
+              }
+          }
+      });
+    });
+  });
+</script>
+{% endblock %}
