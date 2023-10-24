@@ -17,12 +17,12 @@ Clothify is a Django-based Ecommerce application designed for clothing stores. I
 - **User Shopping Experience**: Users can view products, get product details, and add them to the shopping cart.
 - **Shopping Cart**: Users can manage their shopping cart, update quantities, and proceed to checkout.
 - **User-Friendly Interface**: Clothify provides a user-friendly interface to enhance the shopping experience.
-
+- **Checkout**: checkout process for users to finalize their orders.
+- **Creating Orders**: feature to create and manage orders for admin users.
 
 Work-in-Progress Features
 This project is actively under development, WIP features include the following:
 
-Checkout: checkout process for users to finalize their orders.
-Creating Orders: feature to create and manage orders for admin users.
+
 Payment Integration: Integration with payment gateways for secure and convenient online payments.
 PDF Generation for Order Receipt: Automatically generate and provide downloadable PDF order receipts.
