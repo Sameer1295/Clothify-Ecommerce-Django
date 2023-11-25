@@ -25,7 +25,7 @@ Clothify is a Django-based Ecommerce application designed for clothing stores. I
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-project.git](https://github.com/Sameer1295/Clothify-Ecommerce-Django.git)https://github.com/Sameer1295/Clothify-Ecommerce-Django.git
+   git clone https://github.com/Sameer1295/Clothify-Ecommerce-Django.git)https://github.com/Sameer1295/Clothify-Ecommerce-Django.git
 
 2. Cd into project directory
    ```bash
