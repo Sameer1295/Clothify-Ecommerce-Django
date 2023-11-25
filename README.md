@@ -21,3 +21,16 @@ Clothify is a Django-based Ecommerce application designed for clothing stores. I
 - **Creating Orders**: feature to create and manage orders for admin users.
 - **Payment Integration**: Integration with payment gateways for secure and convenient online payments.
 
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/your-project.git](https://github.com/Sameer1295/Clothify-Ecommerce-Django.git)https://github.com/Sameer1295/Clothify-Ecommerce-Django.git
+
+2. Cd into project directory
+   ```bash
+   cd Clothify-Ecommerce-Django/
+
+3. Run server
+   ```bash
+   python manage.py runserver
