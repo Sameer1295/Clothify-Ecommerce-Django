@@ -21,6 +21,18 @@ Clothify is a Django-based Ecommerce application designed for clothing stores. I
 - **Creating Orders**: feature to create and manage orders for admin users.
 - **Payment Integration**: Integration with payment gateways for secure and convenient online payments.
 
+# Django Project Setup
+
+This Django project requires initial setup steps to configure environment variables, databases, and external service keys.
+
+## Prerequisites
+
+- Python 3.x
+- Django
+- MySQL (Make sure MySQL is installed and running)
+- Razorpay account (for payment gateway integration)
+
+
 ## Installation
 
 1. Clone the repository:
@@ -31,6 +43,16 @@ Clothify is a Django-based Ecommerce application designed for clothing stores. I
    ```bash
    cd Clothify-Ecommerce-Django/
 
-3. Run server
+3. Create .env file using .env.example file
+   ```bash 
+    cp clothify/.env.example clothify/.env
+
+4. Update .env file with MYSQL DB Credentials and DB name
+
+5. Run migrations
+   ```bash
+   python manage.py migrate
+
+6. Run server
    ```bash
    python manage.py runserver
