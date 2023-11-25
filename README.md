@@ -21,7 +21,7 @@ Clothify is a Django-based Ecommerce application designed for clothing stores. I
 - **Creating Orders**: feature to create and manage orders for admin users.
 - **Payment Integration**: Integration with payment gateways for secure and convenient online payments.
 
-# Django Project Setup
+# Project Setup
 
 This Django project requires initial setup steps to configure environment variables, databases, and external service keys.
 
