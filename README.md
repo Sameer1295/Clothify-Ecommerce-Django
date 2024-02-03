@@ -43,16 +43,23 @@ This Django project requires initial setup steps to configure environment variab
    ```bash
    cd Clothify-Ecommerce-Django/
 
-3. Create .env file using .env.example file
+3. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # For Linux/Mac
+   # Or
+   .\venv\Scripts\activate  # For Windows
+
+4. Create .env file using .env.example file
    ```bash 
     cp clothify/.env.example clothify/.env
 
-4. Update .env file with MYSQL DB Credentials and DB name
+5. Update .env file with MYSQL DB Credentials and DB name
 
-5. Run migrations
+6. Run migrations
    ```bash
    python manage.py migrate
 
-6. Run server
+7. Run server
    ```bash
    python manage.py runserver
