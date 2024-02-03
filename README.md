@@ -50,16 +50,20 @@ This Django project requires initial setup steps to configure environment variab
    # Or
    .\venv\Scripts\activate  # For Windows
 
-4. Create .env file using .env.example file
+4. Install dependencies from requirements.txt:
+   ```bash
+   pip install -r requirements.txt
+
+5. Create .env file using .env.example file
    ```bash 
     cp clothify/.env.example clothify/.env
 
-5. Update .env file with MYSQL DB Credentials and DB name
+6. Update .env file with MYSQL DB Credentials and DB name
 
-6. Run migrations
+7. Run migrations
    ```bash
    python manage.py migrate
 
-7. Run server
+8. Run server
    ```bash
    python manage.py runserver
